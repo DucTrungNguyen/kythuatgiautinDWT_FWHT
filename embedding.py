@@ -28,7 +28,7 @@ def embedding(pathhostimge, pathwatermarkimage):
             dataWater.append(new_image_watermark[i][j])
 
 
-    # Doc anh host, resize ve kich co 64x64 va tach kenh mau R
+    # Doc anh host, resize ve kich co 1024x1024 va tach kenh mau R
     img = cv.imread(pathhostimge)
     new_imageHost = cv.resize(img, (1024, 1024))
 
@@ -62,9 +62,9 @@ def embedding(pathhostimge, pathwatermarkimage):
 
     # Thuc hien Inverse FWHT
     ifwhtHHw = ifwht(np.array(combinedblocks))
-    # print("Pass ifwhtHHw")
 
-    # Thuc hien Inverse  DWT 2 chieu 2 lan dua kenh mau ve kich co 64x64
+
+    # Thuc hien Inverse  DWT 2 chieu 2 lan, dua ve kich co 1024x1024
     coeffs3 = (LL2, (LH2, HL2, ifwhtHHw))
     X = pywt.idwt2(coeffs3, wavelet='db1')
 
@@ -83,13 +83,10 @@ def embedding(pathhostimge, pathwatermarkimage):
 
 def hessenberg(blocks, dataWater):
     step = 0.034
-    # print(blocks[0])
     pixelWater = 64*64
 
     for h in range(0, pixelWater):
-
         block = mp.matrix(blocks[h])
-        # print(block)
         Q, H = mp.hessenberg(block)
         h11 = H[0, 0]
         if dataWater[h] == 255:
@@ -98,22 +95,15 @@ def hessenberg(blocks, dataWater):
         elif dataWater[h] == 0:
             M1 = -0.5*step
             M2 = 1.5*step
-        # print(h11)
-
-        print(H[0, 0])
 
         h11 = H[0, 0]
         k = math.floor((math.ceil(h11 / step)) / 2)
-
         T1 = 2*k*step + M1
         T2 = 2*k*step + M2
-
-
         if abs(h11 - T2) < abs(h11 - T1):
             h11new = T2
         else:
             h11new = T1
-
         newH = []
         newQ = []
         for i in range(0, 4):
@@ -126,8 +116,6 @@ def hessenberg(blocks, dataWater):
                 rowQ.append(x)
             newH.append(rowH)
             newQ.append(rowQ)
-        print(newH[0][0])
-        print("=================")
         newblock = np.dot(np.dot(np.array(newQ), np.array(newH)), np.array(newQ).T).tolist()
         blocks[h] = newblock
     print("=========")

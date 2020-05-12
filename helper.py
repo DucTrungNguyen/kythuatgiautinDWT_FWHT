@@ -1,7 +1,5 @@
 
 def divblock(hh2):
-
-
     blocks = []
     block = []
     ele1 = []
@@ -14,7 +12,6 @@ def divblock(hh2):
             ele1.append(hh2[i][j + 1])
             ele1.append(hh2[i][j + 2])
             ele1.append(hh2[i][j + 3])
-
             ele2.append(hh2[i + 1][j])
             ele2.append(hh2[i + 1][j + 1])
             ele2.append(hh2[i + 1][j + 2])
@@ -41,36 +38,29 @@ def divblock(hh2):
             ele3 = []
             ele4 = []
             block = []
-
-    # print(len(blocks))
     return blocks
 
 def combinblocks(blocks):
 
-    
     HHw = []
     row1 = []
     row2 = []
     row3 = []
     row4 = []
-    
+
     for i in range(0, 64*64):
         block = blocks[i]
-
         if i == 64*64 - 1:
             row1, row2, row3, row4 = addToRow(row1, row2, row3, row4, block)
-
             HHw.append(row1)
             HHw.append(row2)
             HHw.append(row3)
             HHw.append(row4)
             break
-
         if i% 64 == 0:
             if i == 0:
                 row1, row2, row3, row4 = addToRow(row1, row2, row3, row4, block)
             else:
-                
                 HHw.append(row1)
                 HHw.append(row2)
                 HHw.append(row3)
@@ -80,18 +70,11 @@ def combinblocks(blocks):
                 row2 = []
                 row3 = []
                 row4 = []
-
                 row1, row2, row3, row4 = addToRow(row1, row2, row3, row4, block)
 
-        elif i% 64 != 0:
+        elif i % 64 != 0:
             row1, row2, row3, row4 = addToRow(row1, row2, row3, row4, block)
-            
-            
-    # print("======HHw=====")
-    #
-    # print(len(HHw))
-    #
-    # print(HHw[0])
+
     return HHw
 
 def addToRow(row1, row2, row3, row4, block):
