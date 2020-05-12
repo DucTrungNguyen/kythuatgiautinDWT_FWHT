@@ -13,7 +13,12 @@ def main():
     print("With extraction use form command like this (below):")
     print("python main.py -i [PATH_HOST_IMAGE] -w [PATH_WATERMARK_IMAGE] -m 1")
     print("Output will be in folder named output")
-
+    print("=    =   =         =        ==")
+    print("=   =    =  =    = =       =  =")
+    print("= =      =    ==   =      =    =")
+    print("= =      =         =     = = = ==")
+    print("=   =    =         =    =        =")
+    print("=    =   =         =   =          =")
     ap = argparse.ArgumentParser()
     ap.add_argument("-i", "--image", required=False,
                     help="Host imgae")
@@ -24,16 +29,12 @@ def main():
 
     args = vars(ap.parse_args())
     print(args["mode"])
-    if args["mode"]  == '0':
+    if args["mode"] == '0':
         print("Start Embeding")
         ed.embedding(pathhostimge=args["image"], pathwatermarkimage=args["watermark"])
         print("have been done")
     elif args["mode"] == '1':
         ex.extraction()
-
-
-
-
 
 if __name__ == "__main__":
     main()
