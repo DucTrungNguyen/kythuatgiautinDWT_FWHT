@@ -37,7 +37,7 @@ def embedding(pathhostimge, pathwatermarkimage):
     x = []
 
     for i in range(0, 1024):
-        x = [new_imageHost[i, j][0] for j in range(0,1024)]
+        x = [new_imageHost[i, j][0] for j in range(0, 1024)]
         r1.append(x)
         x = []
 
@@ -118,6 +118,6 @@ def hessenberg(blocks, dataWater):
             newQ.append(rowQ)
         newblock = np.dot(np.dot(np.array(newQ), np.array(newH)), np.array(newQ).T).tolist()
         blocks[h] = newblock
-    print("=========")
-    print(blocks[0])
+    # print("=========")
+    # print(blocks[0])
     return blocks

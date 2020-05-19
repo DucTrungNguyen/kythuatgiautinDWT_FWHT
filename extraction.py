@@ -7,25 +7,27 @@ import numpy as np
 import cv2 as cv
 import helper as h
 import os
+
+
 def extraction():
     # Kiem tra xem file co ton tai hay khong
     if not os.path.exists('output/watermarkResulted.png') or not os.path.exists('output/ImageResulted.png'):
         print("STOPPPPP: Image not exists")
         exit()
 
-    #Doc anh thuy phan
+    # Doc anh thuy phan
     image_watermark = cv.imread('output/watermarkResulted.png', 2)
-    print(image_watermark[0][0])
+    # print(image_watermark[0][0])
     dataWater = []
     for i in range(0, 64):
         for j in range(0, 64):
             dataWater.append(image_watermark[i][j])
 
-    #Tao 1 anh trang de dung trong qua trinh trich xuat
+    # Tao 1 anh trang de dung trong qua trinh trich xuat
     blank_image = np.zeros(shape=[64, 64, 3], dtype=np.uint8)
     ret, imgExtrac = cv.threshold(blank_image, 127, 255, cv.THRESH_BINARY)
 
-    #Doc anh host da duoc thuy van
+    # Doc anh host da duoc thuy van
     img = cv.imread('output/ImageResulted.png')
     r1 = []
     x = []
@@ -48,7 +50,7 @@ def extraction():
 
 
     # dataWater = []
-
+    step = 0.034
     #Thuc hien trich xuat anh thuy van va hien len
     for i in range(0, 64*64):
 
@@ -58,9 +60,9 @@ def extraction():
 
         h11 = H[0, 0]
         # print(h11)
-        if round(h11) % 2 == 0:
+        if math.ceil(h11/step) % 2 == 0:
             pixelExtrac = 0
-        elif  round(h11) % 2 == 1:
+        elif math.ceil(h11/step) % 2 == 1:
             pixelExtrac = 255
 
         dataWater.append(pixelExtrac)
@@ -68,8 +70,7 @@ def extraction():
     for i in range(0,64):
         for j in range(0, 64):
             imgExtrac[i][j] = dataWater[i * 64 + j]
-
-
+    print('Have showed watermark')
     cv.imshow("Extraction Image", imgExtrac)
     cv.waitKey(0)
     cv.destroyAllWindows()
